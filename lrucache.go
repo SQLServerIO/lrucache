@@ -381,6 +381,16 @@ func (c *Cache) Delete(id string) {
 	c.opChan <- operation{c, reqDelete(id)}
 }
 
+func (c *Cache) GetAll() (res map[string]Cacheable) {
+	res = make(map[string]Cacheable)
+
+	for _, item := range c.entries {
+		res[item.id] = item.payload
+	}
+
+	return
+}
+
 // Clean up the resources associated with this goroutine. Stops the main loop
 // and allows the cache to be garbage collected once all user references are
 // gone.
